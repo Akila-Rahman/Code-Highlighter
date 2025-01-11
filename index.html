@@ -4,139 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Syntax Highlighter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #f4f4f9;
-        }
-        h1 {
-            color: #333;
-        }
-        textarea {
-            width: 90%;
-            max-width: 800px;
-            height: 200px;
-            margin: 10px 0;
-            font-family: monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            resize: none;
-        }
-        pre {
-            width: 90%;
-            max-width: 800px;
-            overflow-x: auto;
-            background-color: #282c34;
-            color: #abb2bf;
-            font-family: monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            padding: 10px;
-            border-radius: 5px;
-            white-space: pre-wrap;
-        }
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button.copy-btn {
-            background-color: #007bff;
-            color: #fff;
-        }
-        button.copy-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+	 <link rel="stylesheet" href="style.css">
+   
 </head>
 <body>
     <h1>Code Syntax Highlighter for Word</h1>
     <div class="toolbar">
-        <button class="copy-btn" onclick="copyToPlainText()">Copy Plain Code</button>
-        <button class="copy-btn" onclick="copyHighlightedCode('light')">Copy Highlighted (Light)</button>
-        <button class="copy-btn" onclick="copyHighlightedCode('dark')">Copy Highlighted (Dark)</button>
+        <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+        <button class="theme-btn" onclick="toggleTheme()">Toggle Theme</button>
     </div>
     <textarea id="code-input" placeholder="Type or paste your code here..."></textarea>
     <pre id="highlighted-code"></pre>
-
-    <script>
-        const codeInput = document.getElementById('code-input');
-        const highlightedCode = document.getElementById('highlighted-code');
-
-        function syntaxHighlight(code) {
-            const comments = /(\/\/.*$|\/\*[\s\S]*?\*\/)/gm;
-            const strings = /(['"])(?:(?!\1|\\).|\\.)*\1/g;
-            const keywords = /\b(abstract|boolean|break|byte|case|catch|char|class|const|continue|debugger|default|delete|do|double|else|enum|export|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|let|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)\b/g;
-            const numbers = /\b\d+(\.\d+)?\b/g;
-
-            return code
-                .replace(comments, '<span style="color: #6a9955;">$&</span>')
-                .replace(strings, '<span style="color: #ce9178;">$&</span>')
-                .replace(keywords, '<span style="color: #569cd6;">$&</span>')
-                .replace(numbers, '<span style="color: #b5cea8;">$&</span>');
-        }
-
-        codeInput.addEventListener('input', () => {
-            highlightedCode.innerHTML = syntaxHighlight(codeInput.value);
-        });
-
-        function copyToPlainText() {
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.style.position = 'absolute';
-            tempTextarea.style.left = '-9999px';
-            tempTextarea.value = codeInput.value; // Plain code
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextarea);
-            alert('Plain code copied to clipboard!');
-        }
-
-        function copyHighlightedCode(theme) {
-            const styles = {
-                light: `
-                    background-color: #ffffff; color: #000000;
-                    font-family: monospace; font-size: 14px;
-                `,
-                dark: `
-                    background-color: #282c34; color: #abb2bf;
-                    font-family: monospace; font-size: 14px;
-                `
-            };
-
-            const htmlContent = `
-                <pre style="${styles[theme]}">${highlightedCode.innerHTML}</pre>
-            `;
-
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.style.position = 'absolute';
-            tempTextarea.style.left = '-9999px';
-            tempTextarea.value = htmlContent;
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextarea);
-            alert(`Highlighted syntax for ${theme} background copied to clipboard!`);
-        }
-    </script>
+	 <script src="script.js"></script>
+   
 </body>
 </html>
